@@ -15,6 +15,7 @@ const StyledButton = styled.button`
 `;
 
 const Button = ({ children }) => {
+  // este boton no es reutilizable, solo sirve para hacer trigger con un form
   return <StyledButton type="submit">{children}</StyledButton>;
 };
 

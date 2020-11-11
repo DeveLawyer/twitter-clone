@@ -8,6 +8,7 @@ const FormInput = ({ label, id, type }) => {
   const [active, setActive] = React.useState(false);
 
   // FIXME: Tengo problemas para lograr el efecto del focus sobre el input
+  // Porque no utilizas el pseudo selector :active?
   const inputRef = React.useRef();
 
   React.useEffect(() => {

@@ -1,5 +1,5 @@
 import "./App.css";
-import SignIn from "./views/SignIn";
+import { SignIn } from "views";
 
 function App() {
   return (
