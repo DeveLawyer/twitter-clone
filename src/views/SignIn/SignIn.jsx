@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx, css } from "@emotion/core";
+import React, { useState } from "react";
 import axios from "axios";
-import { css } from "@emotion/core";
 
 import Logo from "building_blocks/Logo";
 import FormInput from "building_blocks/FormInput";
