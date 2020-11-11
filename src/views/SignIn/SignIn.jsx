@@ -18,9 +18,17 @@ const titleStyles = css`
 
 const SignIn = () => {
   const [data, setData] = useState({});
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   // Te faltan los handler para el cambio de user y password
-  function handleUserChange(e) {}
+  function handleUsernameChange(value) {
+    setUsername(value);
+  }
+
+  function handlePasswordChange(value) {
+    setPassword(value);
+  }
 
   // investiga como implementar useCallback
   function handleSubmit(event) {
@@ -37,8 +45,20 @@ const SignIn = () => {
       <Logo />
       <h1 css={titleStyles}>Iniciar sesión en Twitter</h1>
       <form onSubmit={handleSubmit}>
-        <FormInput label="Teléfono, correo o usuario" id="user" type="text" />
-        <FormInput label="Contraseña" id="pass" type="password" />
+        <FormInput
+          label="Teléfono, correo o usuario"
+          id="user"
+          type="text"
+          inputValue={username}
+          onInputValueChange={handleUsernameChange}
+        />
+        <FormInput
+          label="Contraseña"
+          id="pass"
+          type="password"
+          inputValue={password}
+          onInputValueChange={handlePasswordChange}
+        />
         <Button>Iniciar sesión</Button>
       </form>
       <div css={{ textAlign: "center", marginTop: "3rem" }}>
