@@ -1,11 +1,14 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx } from "@emotion/core";
 import "./App.css";
 import { SignIn } from "views";
 
 function App() {
   return (
-    <div className="App">
+    <main css={{ backgroundColor: "#13202c", minHeight: "100vh" }}>
       <SignIn />
-    </div>
+    </main>
   );
 }
 
