@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 
 import Logo from "building_blocks/Logo";
@@ -37,6 +37,9 @@ const SignIn = () => {
     passwordError: false,
   });
 
+  const btnRef = useRef();
+
+  // TODO: abstraer
   function handleUsernameChange(value) {
     setUsername(value);
   }
@@ -110,7 +113,9 @@ const SignIn = () => {
           inputValue={password}
           onInputValueChange={handlePasswordChange}
         />
-        <StyledButton type="submit">Iniciar sesión</StyledButton>
+        <StyledButton ref={btnRef} type="submit">
+          Iniciar sesión
+        </StyledButton>
       </form>
       <div css={{ textAlign: "center", marginTop: "3rem" }}>
         <Link to="#">¿Olvidaste tu contraseña?</Link>
