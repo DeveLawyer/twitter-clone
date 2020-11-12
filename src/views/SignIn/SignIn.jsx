@@ -39,7 +39,7 @@ const SignIn = () => {
 
   const btnRef = useRef();
 
-  // TODO: abstraer
+  // TODO: abstraer estas funciones
   function handleUsernameChange(value) {
     setUsername(value);
   }
