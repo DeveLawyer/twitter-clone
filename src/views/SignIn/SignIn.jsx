@@ -33,8 +33,13 @@ const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = React.useState({
+<<<<<<< HEAD
     usernameError: false,
     passwordError: false,
+=======
+    usernameError: "",
+    passwordError: "",
+>>>>>>> 911744a44cb961309d1653f53f1d1164a6efe344
   });
 
   function handleUsernameChange(value) {
