@@ -1,12 +1,12 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
+import styled from "@emotion/styled";
 import React, { useState } from "react";
 import axios from "axios";
 
 import Logo from "building_blocks/Logo";
 import FormInput from "building_blocks/FormInput";
-import Button from "building_blocks/Button";
 import Link from "building_blocks/Link";
 
 const titleStyles = css`
@@ -16,12 +16,27 @@ const titleStyles = css`
   margin: 1.8rem 0 2.4rem;
 `;
 
+const StyledButton = styled.button`
+  background: #23608e;
+  color: #fff;
+  width: 100%;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 5rem;
+  padding: 1.6rem 0;
+  outline: none;
+`;
+
 const SignIn = () => {
   const [data, setData] = useState({});
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = React.useState({
+    usernameError: "",
+    passwordError: "",
+  });
 
-  // Te faltan los handler para el cambio de user y password
   function handleUsernameChange(value) {
     setUsername(value);
   }
@@ -30,15 +45,50 @@ const SignIn = () => {
     setPassword(value);
   }
 
-  // investiga como implementar useCallback
+  function validateUsername(email) {
+    const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    return regex.test(String(email).toLowerCase());
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
-    // const { user, pass } = event.target.elements;
-    // setData({ ...data, user: user.value, pass: pass.value });
 
     // Aqui se envia la info axios.post('api/login', {user: user.value, pass: pass.value})
     // Recuerda agregar validacion para no enviar los campos vacios
+
+    // Para setear los errores me funcionó usar un callback en useState. Why?
+    // https://stackoverflow.com/questions/54069253/usestate-set-method-not-reflecting-change-immediately
+    // https://stackoverflow.com/questions/58202302/react-usestate-when-updating-state-twice-first-update-gets-deleted
+    // Unlike the setState method found in class components, useState does not automatically merge update objects. You can replicate this behavior by combining the function updater form with object spread syntax:
+    if (password.length < 6) {
+      setErrors((prevState) => ({
+        ...prevState,
+        passwordError: "Password must be at least 6 characters",
+      }));
+    }
+    console.log(errors);
+
+    if (!validateUsername(username)) {
+      setErrors((prevState) => ({
+        ...prevState,
+        usernameError: "Invalid username. Must be an email",
+      }));
+    }
+    console.log(errors);
+
+    if (!errors.usernameError && !errors.passwordError) {
+      setData({ ...data, username, password });
+    } else {
+      setErrors((prevState) => ({
+        usernameError: "",
+        passwordError: "",
+      }));
+      return;
+    }
   }
+  // investiga como implementar useCallback:
+  // https://www.robinwieruch.de/react-usecallback-hook
+  // https://www.robinwieruch.de/react-memo
 
   return (
     <div css={{ maxWidth: "600px", margin: "0 auto", paddingTop: "1rem" }}>
@@ -59,7 +109,7 @@ const SignIn = () => {
           inputValue={password}
           onInputValueChange={handlePasswordChange}
         />
-        <Button>Iniciar sesión</Button>
+        <StyledButton type="submit">Iniciar sesión</StyledButton>
       </form>
       <div css={{ textAlign: "center", marginTop: "3rem" }}>
         <Link to="#">¿Olvidaste tu contraseña?</Link>
