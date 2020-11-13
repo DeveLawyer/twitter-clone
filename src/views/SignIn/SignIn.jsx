@@ -5,12 +5,7 @@ import styled from "@emotion/styled";
 import React, { useState, useRef } from "react";
 import axios from "axios";
 
-import Logo from "building_blocks/Logo/Logo";
-import FormInput from "building_blocks/FormInput/FormInput";
-// import * as FormInput from "building_blocks";
-// import { FormInput } from "building_blocks";
-// import { FormInput } from "FormInput";
-import Link from "building_blocks/Link/Link";
+import { FormInput, Link, Logo } from "building_blocks";
 
 const titleStyles = css`
   color: #fff;
@@ -32,6 +27,7 @@ const StyledButton = styled.button`
 `;
 
 const SignIn = ({ loggedIn, onLoggedInChange }) => {
+  console.log("Render: SignIn");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = React.useState({
@@ -52,7 +48,7 @@ const SignIn = ({ loggedIn, onLoggedInChange }) => {
   }
 
   function checkIfUserIsValid(email) {
-    const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     return regex.test(String(email).toLowerCase());
   }
 
@@ -71,7 +67,9 @@ const SignIn = ({ loggedIn, onLoggedInChange }) => {
       return;
     } else {
       console.log("Ahí va el token");
+
       axios.post("api/login", { username, password }).then((res) => {
+        console.log(res.data);
         onLoggedInChange(!loggedIn);
       });
     }

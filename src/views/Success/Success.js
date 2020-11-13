@@ -1,9 +1,10 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
-import React from "react";
 
 const Success = () => {
+  console.log("Render: Success");
+
   return (
     <div
       css={{

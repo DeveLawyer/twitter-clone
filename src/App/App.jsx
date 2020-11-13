@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
 import "./App.css";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,6 +14,7 @@ import { SignIn } from "views";
 import Success from "../views/Success/Success";
 
 function App() {
+  console.log("Render: App");
   const [loggedIn, setloggedIn] = useState(false);
 
   function onLoggedInChange(value) {

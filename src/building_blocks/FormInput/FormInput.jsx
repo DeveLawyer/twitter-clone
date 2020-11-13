@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
-import React from "react";
+// import React from "react";
 
 // actve: #0091e7
 const StyledContainer = styled.div`
@@ -28,6 +28,8 @@ const StyledInput = styled.input`
 `;
 
 const FormInput = ({ label, id, type, inputValue, onInputValueChange }) => {
+  console.log("Render: FormInput");
+
   // const [active, setActive] = React.useState(false);
 
   function handleChange(event) {
