@@ -28,7 +28,7 @@ const StyledInput = styled.input`
 `;
 
 const FormInput = ({ label, id, type, inputValue, onInputValueChange }) => {
-  const [active, setActive] = React.useState(false);
+  // const [active, setActive] = React.useState(false);
 
   function handleChange(event) {
     onInputValueChange(event.target.value);
@@ -36,13 +36,6 @@ const FormInput = ({ label, id, type, inputValue, onInputValueChange }) => {
 
   // FIXME: Tengo problemas para lograr el efecto del focus sobre el input
   // pseudo selector :active?
-  // const inputRef = React.useRef();
-
-  // React.useEffect(() => {
-  //   if (!inputRef.current.focus()) {
-  //     setActive(false);
-  //   }
-  // }, [active]);
 
   return (
     <StyledContainer>

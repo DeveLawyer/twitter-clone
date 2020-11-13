@@ -5,9 +5,12 @@ import styled from "@emotion/styled";
 import React, { useState, useRef } from "react";
 import axios from "axios";
 
-import Logo from "building_blocks/Logo";
-import FormInput from "building_blocks/FormInput";
-import Link from "building_blocks/Link";
+import Logo from "building_blocks/Logo/Logo";
+import FormInput from "building_blocks/FormInput/FormInput";
+// import * as FormInput from "building_blocks";
+// import { FormInput } from "building_blocks";
+// import { FormInput } from "FormInput";
+import Link from "building_blocks/Link/Link";
 
 const titleStyles = css`
   color: #fff;
@@ -28,8 +31,7 @@ const StyledButton = styled.button`
   outline: none;
 `;
 
-const SignIn = () => {
-  const [data, setData] = useState({});
+const SignIn = ({ loggedIn, onLoggedInChange }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = React.useState({
@@ -37,6 +39,7 @@ const SignIn = () => {
     passwordError: false,
   });
 
+  // TODO: disabled mientras no haya data válida
   const btnRef = useRef();
 
   // TODO: abstraer estas funciones
@@ -48,7 +51,7 @@ const SignIn = () => {
     setPassword(value);
   }
 
-  function validateUsername(email) {
+  function checkIfUserIsValid(email) {
     const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     return regex.test(String(email).toLowerCase());
   }
@@ -56,38 +59,21 @@ const SignIn = () => {
   function handleSubmit(event) {
     event.preventDefault();
 
-    // Aqui se envia la info axios.post('api/login', {user: user.value, pass: pass.value})
-    // Recuerda agregar validacion para no enviar los campos vacios
+    const usernameError = !checkIfUserIsValid(username);
+    const passwordError = password.length < 6;
 
-    // Para setear los errores me funcionó usar un callback en useState. Why?
-    // https://stackoverflow.com/questions/54069253/usestate-set-method-not-reflecting-change-immediately
-    // https://stackoverflow.com/questions/58202302/react-usestate-when-updating-state-twice-first-update-gets-deleted
-    // Unlike the setState method found in class components, useState does not automatically merge update objects. You can replicate this behavior by combining the function updater form with object spread syntax:
-    if (!validateUsername(username)) {
-      setErrors((prevState) => ({
-        ...prevState,
-        usernameError: true,
-      }));
-    }
-    console.log(errors);
+    setErrors({ ...errors, usernameError, passwordError });
+    // console.log(errors);
 
-    if (password.length < 6) {
-      setErrors((prevState) => ({
-        ...prevState,
-        passwordError: true,
-      }));
-    }
-    console.log(errors);
-
-    if (!errors.usernameError && !errors.passwordError) {
-      setData((prevState) => ({ ...prevState, username, password }));
-    } else {
-      setErrors((prevState) => ({
-        ...prevState,
-        usernameError: "",
-        passwordError: "",
-      }));
+    // Al hacer submit por primera vez, siempre arroja el token
+    if (errors.usernameError || errors.passwordError) {
+      console.log("Error! return!");
       return;
+    } else {
+      console.log("Ahí va el token");
+      axios.post("api/login", { username, password }).then((res) => {
+        onLoggedInChange(!loggedIn);
+      });
     }
   }
   // investiga como implementar useCallback:

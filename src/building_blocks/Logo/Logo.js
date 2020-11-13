@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { ReactComponent as LogoImg } from "../images/twitter-logo.svg";
+import { ReactComponent as LogoImg } from "../../images/twitter-logo.svg";
 
 const Logo = () => {
   return (
