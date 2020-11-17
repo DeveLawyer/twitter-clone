@@ -1,8 +1,8 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
+import React, { useState } from "react";
 import { jsx, css } from "@emotion/core";
 import styled from "@emotion/styled";
-import React, { useState, useRef } from "react";
 import axios from "axios";
 
 import { FormInput, Link, Logo } from "building_blocks";
@@ -24,19 +24,21 @@ const StyledButton = styled.button`
   border-radius: 5rem;
   padding: 1.6rem 0;
   outline: none;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #23608e05;
+  }
 `;
 
 const SignIn = ({ loggedIn, onLoggedInChange }) => {
-  console.log("Render: SignIn");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = React.useState({
     usernameError: false,
     passwordError: false,
   });
-
-  // TODO: disabled mientras no haya data válida
-  const btnRef = useRef();
 
   // TODO: abstraer estas funciones
   function handleUsernameChange(value) {
@@ -59,16 +61,14 @@ const SignIn = ({ loggedIn, onLoggedInChange }) => {
     const passwordError = password.length < 6;
 
     setErrors({ ...errors, usernameError, passwordError });
-    // console.log(errors);
 
     // Al hacer submit por primera vez, siempre arroja el token
     if (errors.usernameError || errors.passwordError) {
       console.log("Error! return!");
       return;
     } else {
-      console.log("Ahí va el token");
-
-      axios.post("api/login", { username, password }).then((res) => {
+      axios.post("api/login", { username, password }).then(
+        (res) => {
         console.log(res.data);
         onLoggedInChange(!loggedIn);
       });
@@ -77,6 +77,7 @@ const SignIn = ({ loggedIn, onLoggedInChange }) => {
   // investiga como implementar useCallback:
   // https://www.robinwieruch.de/react-usecallback-hook
   // https://www.robinwieruch.de/react-memo
+  const isDataValid = username && password && !errors.usernameError && !errors.passwordError;
 
   return (
     <div css={{ maxWidth: "600px", margin: "0 auto", paddingTop: "1rem" }}>
@@ -97,7 +98,7 @@ const SignIn = ({ loggedIn, onLoggedInChange }) => {
           inputValue={password}
           onInputValueChange={handlePasswordChange}
         />
-        <StyledButton ref={btnRef} type="submit">
+        <StyledButton type="submit" disabled={!isDataValid}>
           Iniciar sesión
         </StyledButton>
       </form>
