@@ -10,8 +10,7 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import { SignIn } from "views";
-import Success from "../views/Success/Success";
+import { SignIn, Success } from "views";
 
 function App() {
   console.log("Render: App");
