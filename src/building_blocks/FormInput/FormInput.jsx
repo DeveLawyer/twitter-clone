@@ -28,8 +28,6 @@ const StyledInput = styled.input`
 `;
 
 const FormInput = ({ label, id, type, inputValue, onInputValueChange }) => {
-  console.log("Render: FormInput");
-
   // const [active, setActive] = React.useState(false);
 
   function handleChange(event) {

@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { jsx, css } from "@emotion/core";
 import styled from "@emotion/styled";
 import axios from "axios";
@@ -36,9 +36,16 @@ const SignIn = ({ loggedIn, onLoggedInChange }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = React.useState({
-    usernameError: false,
-    passwordError: false,
+    usernameError: true,
+    passwordError: true,
   });
+
+  useEffect(() => {
+    const usernameError = !checkIfUserIsValid(username);
+    const passwordError = password.length < 6;
+
+    setErrors((prevState) => ({ ...prevState, usernameError, passwordError }));
+  }, [username, password]);
 
   // TODO: abstraer estas funciones
   function handleUsernameChange(value) {
@@ -57,12 +64,7 @@ const SignIn = ({ loggedIn, onLoggedInChange }) => {
   function handleSubmit(event) {
     event.preventDefault();
 
-    const usernameError = !checkIfUserIsValid(username);
-    const passwordError = password.length < 6;
-
-    setErrors({ ...errors, usernameError, passwordError });
-
-    // FIXME: Al hacer submit por primera vez, siempre arroja el token
+    // FIXME: La primera condición ya no se puede cumplir? (por el disabled)
     if (errors.usernameError || errors.passwordError) {
       console.log("Error! return!");
       return;

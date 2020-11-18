@@ -13,7 +13,6 @@ import {
 import { SignIn, Success } from "views";
 
 function App() {
-  console.log("Render: App");
   const [loggedIn, setloggedIn] = useState(false);
 
   function onLoggedInChange(value) {
