@@ -62,13 +62,12 @@ const SignIn = ({ loggedIn, onLoggedInChange }) => {
 
     setErrors({ ...errors, usernameError, passwordError });
 
-    // Al hacer submit por primera vez, siempre arroja el token
+    // FIXME: Al hacer submit por primera vez, siempre arroja el token
     if (errors.usernameError || errors.passwordError) {
       console.log("Error! return!");
       return;
     } else {
-      axios.post("api/login", { username, password }).then(
-        (res) => {
+      axios.post("api/login", { username, password }).then((res) => {
         console.log(res.data);
         onLoggedInChange(!loggedIn);
       });
@@ -77,7 +76,8 @@ const SignIn = ({ loggedIn, onLoggedInChange }) => {
   // investiga como implementar useCallback:
   // https://www.robinwieruch.de/react-usecallback-hook
   // https://www.robinwieruch.de/react-memo
-  const isDataValid = username && password && !errors.usernameError && !errors.passwordError;
+  const isDataValid =
+    username && password && !errors.usernameError && !errors.passwordError;
 
   return (
     <div css={{ maxWidth: "600px", margin: "0 auto", paddingTop: "1rem" }}>
